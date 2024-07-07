@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+javafx {
+    version = '17.0.1'
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.controls', 'javafx.fxml' ]
+}
+
+mainClassName = 'SafeLake'
+group 'catastrophic.coders'
+version '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    implementation 'com.google.api-client:google-api-client:1.33.2'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.33.1'
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev20220221-1.32.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': 'Launcher'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
